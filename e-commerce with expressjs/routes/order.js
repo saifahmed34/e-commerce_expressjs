@@ -4,7 +4,7 @@ const OrderItem = require('../models/Orderitem');
 
 const router = express.Router();
 
-// ✅ GET all orders
+
 router.get('/', async (req, res) => {
   try {
     const orderList = await Orders.find()
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ POST a new order
+
 router.post('/', async (req, res) => {
   try {
     const orderItemIds = await Promise.all(
@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// ✏️ PUT: Update order status or fields
+
 router.put('/:id', async (req, res) => {
   try {
     const order = await Orders.findByIdAndUpdate(
@@ -74,14 +74,14 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// ❌ DELETE: Remove an order and its order items
+
 router.delete('/:id', async (req, res) => {
   try {
     const order = await Orders.findById(req.params.id);
 
     if (!order) return res.status(404).send('Order not found');
 
-    // delete all related order items
+
     await Promise.all(order.OrderItem.map(async (id) => await OrderItem.findByIdAndDelete(id)));
 
     await order.deleteOne();
